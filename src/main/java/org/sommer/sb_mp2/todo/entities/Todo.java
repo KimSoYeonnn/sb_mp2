@@ -28,4 +28,8 @@ public class Todo {
 
     private String writer;
 
+    public void changeTitle(String title){
+        this.title = title;
+      }
+
 }

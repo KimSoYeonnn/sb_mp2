@@ -66,6 +66,18 @@ public class TodoRepoTests {
         repository.deleteById(tno);
     }
 
+    @Test
+    @Commit
+    public void testUpdate(){
+
+        java.util.Optional<Todo> result = repository.findById(1L);
+
+        Todo todo = result.get();
+
+        todo.changeTitle("Changed Title234");
+
+        //repository.save(todo);
+    }
 
 
 
