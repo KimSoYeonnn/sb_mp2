@@ -109,5 +109,12 @@ public class TodoRepoTests {
 
     repository.listofTitle("tle", pageable);
 
-  }
+    }
+
+    @Test
+    public void testSelectDTO() {
+
+        log.info(repository.selectDTO(1L));
+
+    }
 }
