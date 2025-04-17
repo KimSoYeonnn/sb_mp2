@@ -9,9 +9,11 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity(name = "todo")
 @Table(name = "tbl_todo")
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
