@@ -26,11 +26,12 @@ public class TodoRepoTests {
     private TodoRepository repository;
 
     @Test
+    @Commit
     public void testInsertOne() {
 
         Todo todo = Todo.builder()
             .title("Test")
-            .writer("user1")
+            .writer("user00")
             .build();
 
         repository.save(todo);

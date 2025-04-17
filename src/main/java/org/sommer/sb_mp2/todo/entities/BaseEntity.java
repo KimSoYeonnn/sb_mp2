@@ -3,6 +3,7 @@ package org.sommer.sb_mp2.todo.entities;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -19,7 +20,7 @@ public abstract class BaseEntity {
     @Column(name = "regdate", updatable = false)
     private LocalDateTime regDate;
     
-    @CreatedDate
+    @LastModifiedDate
     @Column(name = "moddate")
     private LocalDateTime modDate;
 
