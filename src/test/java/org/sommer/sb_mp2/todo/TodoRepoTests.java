@@ -102,4 +102,12 @@ public class TodoRepoTests {
     }
 
 
+    @Test
+    public void testQuery1() {
+
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("tno").descending());
+
+    repository.listofTitle("Title", pageable);
+
+  }
 }

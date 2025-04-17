@@ -11,7 +11,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity(name = "todo")
+@Entity
 @Table(name = "tbl_todo")
 @ToString
 @Builder
