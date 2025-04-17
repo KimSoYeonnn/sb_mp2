@@ -8,6 +8,10 @@ import org.sommer.sb_mp2.todo.entities.Todo;
 import org.sommer.sb_mp2.todo.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
 import jakarta.transaction.Transactional;
@@ -79,7 +83,22 @@ public class TodoRepoTests {
         //repository.save(todo);
     }
 
+    @Test
+    public void testList() {
 
+        Pageable pageable 
+        = PageRequest.of(0, 10, Sort.by("tno").descending());
+
+        Page<Todo> result = repository.findAll(pageable);
+
+        result.get().forEach(todo -> log.info(todo));
+
+        log.info("-------------------------");
+        log.info(result.getTotalElements());
+        log.info(result.getNumber());
+        log.info(result.getSize());
+
+    }
 
 
 }
