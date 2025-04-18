@@ -27,6 +27,9 @@ public class CustomSecurityConfig {
             config.disable();
         });
 
+        //CSRF Token 비활성화
+        http.csrf(config -> config.disable());
+
         //세션 생성 필요 없음
         http.sessionManagement(config -> {
             config.sessionCreationPolicy(SessionCreationPolicy.NEVER);

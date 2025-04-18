@@ -8,11 +8,11 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
+import org.sommer.sb_mp2.todo.dto.ActionResultDTO;
 import org.sommer.sb_mp2.todo.dto.TodoDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/api/v1/todos")
@@ -34,5 +34,18 @@ public class TodoController {
 
         return ResponseEntity.ok(list);
     }
-    
+
+    @PostMapping("")
+        public ResponseEntity<ActionResultDTO<Long>> post(TodoDTO dto){
+
+            log.info("----------------post--------------------");
+            log.info(dto);
+
+            return ResponseEntity.ok(ActionResultDTO.<Long>builder()
+                            .result("success")
+                            .data(10L)
+                    .build());
+
+        }
+        
 }
