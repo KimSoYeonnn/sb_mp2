@@ -1,9 +1,11 @@
 package org.sommer.sb_mp2.todo;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.sommer.sb_mp2.todo.entities.QTodo;
 import org.sommer.sb_mp2.todo.entities.Todo;
 import org.sommer.sb_mp2.todo.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
+
+import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
@@ -24,6 +29,24 @@ public class TodoRepoTests {
     
     @Autowired(required = false)
     private TodoRepository repository;
+
+    @Autowired
+    private JPAQueryFactory queryFactory;
+
+    @Test
+    public void testQuery() {
+
+        log.info(queryFactory);  // QueryFactory 잘 주입됐는지 확인
+
+        QTodo todo = QTodo.todo;
+
+        JPQLQuery<Todo> query = queryFactory.selectFrom(todo)
+            .where(todo.tno.gt(2L)); // 조건 설정
+
+        List<Todo> result = query.fetch();  // 쿼리 실행해서 결과 받아오기
+
+        result.forEach(item -> log.info(item));
+    }
 
     @Test
     @Commit

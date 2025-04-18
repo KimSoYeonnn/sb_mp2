@@ -2,11 +2,14 @@ package org.sommer.sb_mp2.todo.dto;
 
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@Builder
 public class TodoDTO {
     
     private Long tno;
@@ -17,7 +20,7 @@ public class TodoDTO {
 
     private LocalDateTime regDate;
     private LocalDateTime modDate;
-    
+
     public TodoDTO(Long tno, String title, String writer, LocalDateTime regDate, LocalDateTime modDate) {
         this.tno = tno;
         this.title = title;
