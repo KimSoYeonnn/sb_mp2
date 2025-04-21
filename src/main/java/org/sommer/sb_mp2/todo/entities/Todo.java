@@ -8,12 +8,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
 @Table(name = "tbl_todo")
 @ToString
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,6 +29,8 @@ public class Todo extends BaseEntity {
     private String title;
 
     private String writer;
+
+    private String content;
 
     public void changeTitle(String title){
         this.title = title;

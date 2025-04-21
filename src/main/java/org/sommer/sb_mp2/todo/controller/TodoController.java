@@ -1,6 +1,7 @@
 package org.sommer.sb_mp2.todo.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,11 @@ import java.util.List;
 
 import org.sommer.sb_mp2.todo.dto.ActionResultDTO;
 import org.sommer.sb_mp2.todo.dto.TodoDTO;
+import org.sommer.sb_mp2.todo.service.TodoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,21 +25,35 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Log4j2
 @RequiredArgsConstructor
 public class TodoController {
-  
+
+    private final TodoService todoService;
+
     @GetMapping("list")
-    public ResponseEntity<List<TodoDTO>> getList() {
-        
-        List<TodoDTO> list = List.of(
-                                    TodoDTO.builder()
-                                            .tno(10L)
-                                            .title("Test10")
-                                            .writer("user10")                                            
-                                    .build()
+    public ResponseEntity<Page<TodoDTO>> getList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        );
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("tno").descending());
 
-        return ResponseEntity.ok(list);
+        Page<TodoDTO> result = todoService.getList(pageable);
+
+        return ResponseEntity.ok(result);
     }
+  
+    // @GetMapping("list")
+    // public ResponseEntity<List<TodoDTO>> getList() {
+        
+    //     List<TodoDTO> list = List.of(
+    //                                 TodoDTO.builder()
+    //                                         .tno(10L)
+    //                                         .title("Test10")
+    //                                         .writer("user10")                                            
+    //                                 .build()
+
+    //     );
+
+    //     return ResponseEntity.ok(list);
+    // }
 
     @PostMapping("")
         public ResponseEntity<ActionResultDTO<Long>> post(TodoDTO dto){

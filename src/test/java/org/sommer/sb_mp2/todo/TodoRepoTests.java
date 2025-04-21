@@ -69,6 +69,7 @@ public class TodoRepoTests {
             Todo todo = Todo.builder()
                 .title("Test" + i)
                 .writer("user" + i )
+                .content("content"+i)
                 .build();
     
             repository.save(todo);
