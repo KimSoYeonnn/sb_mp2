@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
@@ -44,20 +45,12 @@ public class TodoController {
         return ResponseEntity.ok(result);
     }
   
-    // @GetMapping("list")
-    // public ResponseEntity<List<TodoDTO>> getList() {
-        
-    //     List<TodoDTO> list = List.of(
-    //                                 TodoDTO.builder()
-    //                                         .tno(10L)
-    //                                         .title("Test10")
-    //                                         .writer("user10")                                            
-    //                                 .build()
-
-    //     );
-
-    //     return ResponseEntity.ok(list);
-    // }
+    @GetMapping("/read/{tno}")
+    public ResponseEntity<TodoDTO> read(@PathVariable("tno") Long tno) {
+        log.info("읽기 요청 : {}", tno);
+        TodoDTO dto = todoService.getOne(tno);
+        return ResponseEntity.ok(dto);
+    }
 
     @PostMapping("")
     public ResponseEntity<ActionResultDTO<Long>> post(TodoDTO dto){

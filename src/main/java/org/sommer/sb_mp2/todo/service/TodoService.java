@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface TodoService {
     
-    // TodoDTO getOne(Long tno);
+    TodoDTO getOne(Long tno);
 
     Page<TodoDTO> getList(Pageable pageable);
 

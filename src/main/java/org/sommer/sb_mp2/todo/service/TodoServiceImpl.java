@@ -1,5 +1,7 @@
 package org.sommer.sb_mp2.todo.service;
 
+import java.util.Optional;
+
 import org.sommer.sb_mp2.todo.dto.TodoDTO;
 import org.sommer.sb_mp2.todo.entities.Todo;
 import org.sommer.sb_mp2.todo.repository.TodoRepository;
@@ -34,6 +36,23 @@ public class TodoServiceImpl implements TodoService {
                     .modDate(todo.getModDate())
                     .build();
         });
+    }
+
+    @Override
+    public TodoDTO getOne(Long tno) {
+        
+        Optional<Todo> result = repository.findById(tno);
+
+        Todo todo = result.orElseThrow(() -> new RuntimeException("해당 번호의 Todo가 없습니다."));
+
+        return TodoDTO.builder()
+            .tno(todo.getTno())
+            .title(todo.getTitle())
+            .content(todo.getContent())
+            .writer(todo.getWriter())
+            .regDate(todo.getRegDate())
+            .modDate(todo.getModDate())
+            .build();
     }
     
 }
