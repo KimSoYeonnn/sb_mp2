@@ -11,6 +11,8 @@ import java.util.List;
 
 import org.sommer.sb_mp2.todo.dto.ActionResultDTO;
 import org.sommer.sb_mp2.todo.dto.TodoDTO;
+import org.sommer.sb_mp2.todo.entities.Todo;
+import org.sommer.sb_mp2.todo.repository.TodoRepository;
 import org.sommer.sb_mp2.todo.service.TodoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class TodoController {
 
     private final TodoService todoService;
+
+    private final TodoRepository repository;
 
     @GetMapping("list")
     public ResponseEntity<Page<TodoDTO>> getList(
@@ -56,16 +60,30 @@ public class TodoController {
     // }
 
     @PostMapping("")
-        public ResponseEntity<ActionResultDTO<Long>> post(TodoDTO dto){
+    public ResponseEntity<ActionResultDTO<Long>> post(TodoDTO dto){
 
-            log.info("----------------post--------------------");
-            log.info(dto);
+        log.info("----------------post--------------------");
+        log.info(dto);
 
-            return ResponseEntity.ok(ActionResultDTO.<Long>builder()
-                            .result("success")
-                            .data(10L)
-                    .build());
-
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+
+        Todo todo = Todo.builder()
+                        .title(dto.getTitle())
+                        .writer(dto.getWriter())
+                        .content(dto.getContent())
+                        .build();
+            
+        Todo saved = repository.save(todo);
+
+        return ResponseEntity.ok(ActionResultDTO.<Long>builder()
+                        .result("success")
+                        .data(saved.getTno())
+                .build());
+
+    }
         
 }
