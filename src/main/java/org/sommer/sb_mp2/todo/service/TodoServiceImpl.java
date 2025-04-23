@@ -1,5 +1,6 @@
 package org.sommer.sb_mp2.todo.service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.sommer.sb_mp2.todo.dto.TodoDTO;
@@ -8,6 +9,7 @@ import org.sommer.sb_mp2.todo.repository.TodoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -53,6 +55,40 @@ public class TodoServiceImpl implements TodoService {
             .regDate(todo.getRegDate())
             .modDate(todo.getModDate())
             .build();
+    }
+
+    @Override
+    @Transactional
+    public TodoDTO modify(TodoDTO dto) {
+
+        Optional<Todo> result = repository.findById(dto.getTno());
+
+        if (result.isEmpty()) {
+            throw new IllegalArgumentException("해당 번호의 Todo가 존재하지 않습니다.");
+        }
+
+        Todo todo = result.get();
+
+        todo.changeTitle(dto.getTitle());
+        todo.changeContent(dto.getContent());
+        todo.changeModDate(LocalDateTime.now());
+
+        repository.save(todo);
+
+        return TodoDTO.builder()
+            .tno(todo.getTno())
+            .title(todo.getTitle())
+            .content(todo.getContent())
+            .writer(todo.getWriter())
+            .regDate(todo.getRegDate())
+            .modDate(todo.getModDate())
+            .build();
+    }
+
+    @Override
+    @Transactional
+    public void remove(Long tno) {
+        repository.deleteById(tno);
     }
     
 }

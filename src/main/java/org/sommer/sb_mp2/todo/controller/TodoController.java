@@ -19,9 +19,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/v1/todos")
@@ -47,10 +50,34 @@ public class TodoController {
   
     @GetMapping("/read/{tno}")
     public ResponseEntity<TodoDTO> read(@PathVariable("tno") Long tno) {
-        log.info("읽기 요청 : {}", tno);
         TodoDTO dto = todoService.getOne(tno);
         return ResponseEntity.ok(dto);
     }
+
+    @PutMapping("/{tno}")
+    public ResponseEntity<ActionResultDTO<Long>> modify(
+            @PathVariable("tno") Long tno, 
+            @ModelAttribute TodoDTO dto) {
+
+        dto.setTno(tno); 
+        TodoDTO modified = todoService.modify(dto);
+
+        return ResponseEntity.ok(ActionResultDTO.<Long>builder()
+                .result("success")
+                .data(modified.getTno())
+                .build()
+        );
+    }
+
+    @DeleteMapping("/{tno}")
+    public ResponseEntity<ActionResultDTO<Long>> remove(@PathVariable("tno") Long tno) {
+        todoService.remove(tno);
+        return ResponseEntity.ok(ActionResultDTO.<Long>builder()
+                .result("success")
+                .data(tno)
+                .build());
+    }
+
 
     @PostMapping("")
     public ResponseEntity<ActionResultDTO<Long>> post(TodoDTO dto){

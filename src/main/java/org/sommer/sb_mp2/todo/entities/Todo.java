@@ -1,5 +1,7 @@
 package org.sommer.sb_mp2.todo.entities;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,5 +37,13 @@ public class Todo extends BaseEntity {
     public void changeTitle(String title){
         this.title = title;
       }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
+
+    public void changeModDate(LocalDateTime now) {
+        this.modDate = modDate;
+    }
 
 }

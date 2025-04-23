@@ -14,4 +14,8 @@ public interface TodoService {
 
     Page<TodoDTO> getList(Pageable pageable);
 
+    TodoDTO modify(TodoDTO dto);
+
+    void remove(Long tno);
+
 }
